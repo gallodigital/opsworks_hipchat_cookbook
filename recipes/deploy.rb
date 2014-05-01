@@ -11,7 +11,11 @@ node[:deploy].each do |application, deploy|
     opsworks_user = nil
   end
   if deploy[:hipchat_run_on]
-    perform_notification = deploy[:hipchat_run_on].include?(node['hostname'])
+    if deploy[:hipchat_run_on].to_s == '_all'
+      perform_notification = true
+    else
+      perform_notification = deploy[:hipchat_run_on].include?(node['hostname'])
+    end
   else
     perform_notification = false
   end
