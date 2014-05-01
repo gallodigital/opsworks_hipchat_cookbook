@@ -1,6 +1,7 @@
 node[:deploy].each do |application, deploy|
   token = deploy[:hipchat_token]
   room = deploy[:hipchat_room_id]
+  sent_from = deploy[:hipchat_notify_from] || 'Amazon OpsWorks'
   application_name = application
   if deploy[:scm] and deploy[:deploying_user]
     scm = deploy[:scm]
@@ -16,8 +17,12 @@ node[:deploy].each do |application, deploy|
   end
 
   if token && room && application_name && perform_notification && !scm.nil? then
+    stack_state = JSON.parse(`opsworks-agent-cli stack_state`)
+    stack_name = stack_state['stack']['name']
+    stack_id = stack_state['stack']['id']
+
     execute "send hipchat notification" do
-      command "/usr/bin/hipchat_notification.py #{token} #{room} #{application_name} #{opsworks_user}"
+      command "/usr/bin/hipchat_notification.py #{token} #{room} #{sent_from} #{application_name} #{opsworks_user} \"#{stack_name}\" #{stack_id}"
       action :run
     end
   end
