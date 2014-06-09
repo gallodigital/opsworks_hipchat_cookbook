@@ -5,7 +5,7 @@ execute "install python hipchat module" do
   command "pip install python-simple-hipchat"
 end
 
-cookbook_file "/usr/bin/hipchat_notification.py" do
+cookbook_file "/usr/local/bin/hipchat_notification.py" do
   source "hipchat_notification.py"
   group "root"
   mode "0755"
