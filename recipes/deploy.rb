@@ -26,7 +26,7 @@ node[:deploy].each do |application, deploy|
     stack_id = stack_state['stack']['id']
 
     execute "send hipchat notification" do
-      command "/usr/bin/hipchat_notification.py #{token} #{room} #{sent_from} #{application_name} #{opsworks_user} \"#{stack_name}\" #{stack_id}"
+      command "/usr/local/bin/hipchat_notification.py #{token} #{room} #{sent_from} #{application_name} #{opsworks_user} \"#{stack_name}\" #{stack_id}"
       action :run
     end
   end
