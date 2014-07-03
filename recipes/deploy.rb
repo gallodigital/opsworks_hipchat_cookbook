@@ -19,7 +19,7 @@ node[:deploy].each do |application, deploy|
     perform_notification = false
   end
 
-  if token && room && application_name && perform_notification && !scm.nil?
+  if deploy[:hipchat_token] && deploy[:hipchat_room_id] && application && perform_notification && !scm.nil?
     stack_name = node['opsworks']['stack']['name']
     stack_id = node['opsworks']['stack']['id']
 
