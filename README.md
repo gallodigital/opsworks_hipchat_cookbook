@@ -1,54 +1,41 @@
-# (Simple) Hipchat Opsworks notifications
+# HipChat OpsWorks Notifications
 
-##Description
-Chef *opsworks_hipchat* cookbook will automatically send [hipchat](http://www.hipchat.com)
-notifications to your hipchat rooms. Below is an example:
+## Description
 
-![alttext](https://github.com/wzin/opsworks_hipchat/blob/master/images/notification_example.png?raw=true "")
+The *opsworks_hipchat* cookbook will automatically send [HipChat](http://www.hipchat.com)
+notifications to your HipChat rooms.
 
-##Requirements
-- Amazon Opsworks
-- Custom chef cookbooks enabled 
-- Deployments should be performed by IAM users. You root account will throw an error with this cookbook (but it's easy to change though :) )
+## Requirements
 
-##Installation 
-* put "opsworks_hipchat::install" recipe in your rails/nodejs/php/static opsworks layer under "Setup" or "Configure" section
-* create 3 additional sections in your node[:deploy][:application_name] stack settings json,
-that will resemble your hipchat api key, room id and opsworks instance
-(server) that will send the notification. You must create node[:deploy][:application_name][:hipchat_token] and node[:deploy][:application_name][:hipchat_room_id]. Hipchat token and room id can be obtain from you hipchat admin panel.
+- Amazon OpsWorks
+- Custom Chef cookbooks enabled 
+- Deployments should be performed by IAM users.
 
-Example:
+## Installation 
+
+Note: This cookbook can be added to a Berksfile, so that is probably the best way to utilize this cookbook.
+
+After finding a home for the cookbook:
+
+1. put the "opsworks_hipchat" recipe in the layers you want deployment notifications for under the "Setup" section
+2. put the "opsworks_hipchat::deploy" recipe in the "Deploy" section for the layers you added the above recipe
+3. create 3 additional sections in your node[:deploy][:application_name] stack settings JSON, that will have your HipChat API key,
+  room ID and OpsWorks instance (server) that will send the notification (or _all if you want notified after all instances deploy)
+
+## Example
 
 ```json
-{ "deploy": {
+{
+    "deploy": {
         "my_fancy_app": {
             "hipchat_token" : "69d2627efe8f564c1cc0b6341e3291",
             "hipchat_room_id": "206231",
             "hipchat_run_on" : "rails-app1",
-            "database": {
-                "database": "my_fancy_app_production",
-                "adapter": "postgresql",
-                "host": "db1",
-                "reconnect": true,
-                "username": "my_fancy_app_production",
-                "password": "rigfjnremwds"
-            },
-            "symlink_before_migrate": {
-                "config/database.yml": "config/database.yml",
-                "config/s3.yml": "config/s3.yml",
-                "config/sendgrid.yml": "config/sendgrid.yml",
-                "config/application.yml": "config/application.yml",
-                "config/sunspot.yml": "config/sunspot.yml"
-            }
         }
 }
 ```
 
-##Usage
-How to receive notifications on each deployment:
+## LWRPs
 
-Put "opsworks_hipchat::deploy" recipe in your rails/nodejs/php/static opsworks layer under "Deploy" section
-
-Finally you will have something like this:
-
-![alttext](https://github.com/wzin/opsworks_hipchat/blob/master/images/configuration_example.png?raw=true "")
+This cookbook also adds an `opsworks_hipchat_notification` LWRP so you can send notifications in other cookbooks.
+The `message`, `room`, and `token` attributes are absolutely required; the rest have decent defaults.
