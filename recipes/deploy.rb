@@ -29,7 +29,7 @@ node[:deploy].each do |application, deploy|
     message << "successfully deployed #{application}.<br />"
     message << "Stack: #{stack_name}<br />"
     message << "Instance: #{node['hostname']}<br />"
-    message << "<a href=\"https://console.aws.amazon.com/opsworks/home?#/stack/#{stack_id}/deployments/#{node['opsworks']['deployment']}\">details &rdquo;</a>"
+    message << "<a href=\"https://console.aws.amazon.com/opsworks/home?#/stack/#{stack_id}/deployments/#{node['opsworks']['deployment']}\">details &raquo;</a>"
 
     opsworks_hipchat_notification "post-deploy-notification" do
       room deploy[:hipchat_room_id]
