@@ -24,9 +24,9 @@ node[:deploy].each do |application, deploy|
     stack_id = node['opsworks']['stack']['id']
 
     # Build the message to send to HipChat.
-    message = ""
+    message = "<strong>(successful) "
     message << "#{opsworks_user} " if opsworks_user
-    message << "successfully deployed #{application}.<br />"
+    message << "successfully deployed #{application}.</strong><br />"
     message << "Stack: #{stack_name}<br />"
     message << "Instance: #{node['hostname']}<br />"
     message << "<a href=\"https://console.aws.amazon.com/opsworks/home?#/stack/#{stack_id}/deployments/#{node['opsworks']['deployment']}\">details &raquo;</a>"
