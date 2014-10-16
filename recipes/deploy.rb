@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
     stack_id = node['opsworks']['stack']['id']
 
     # Build the message to send to HipChat.
-    message = "<strong>(successful) "
+    message = "<strong>"
     message << "#{opsworks_user} " if opsworks_user
     message << "successfully deployed #{application}.</strong><br />"
     message << "Stack: #{stack_name}<br />"
